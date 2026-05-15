@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Anchor · by Flux Forward</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ff-red: #E8201A;
+    --ff-red-deep: #C91B16;
+    --ink: #0B0B0B;
+    --soft: #F5F4F1;
+    --line: #E4E2DC;
+    --muted: #6B6B69;
+    --card: #FFFFFF;
+    --shadow: 0 1px 2px rgba(11,11,11,0.04), 0 4px 16px rgba(11,11,11,0.04);
+    --green: #059669;
+    --amber: #D97706;
+    --blue: #0284C7;
+  }
+  [data-theme="dark"] {
+    --ink: #F5F4F1;
+    --soft: #1C1C1A;
+    --line: #2E2D2B;
+    --muted: #9A9A96;
+    --card: #242422;
+    --shadow: 0 1px 2px rgba(0,0,0,0.2), 0 4px 16px rgba(0,0,0,0.2);
+    --green: #34D399;
+    --amber: #FBBF24;
+    --blue: #38BDF8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--soft);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  button, input, select, textarea { font-family: inherit; }
+
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 24px 20px 100px;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-mark {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: var(--ff-red);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 700; font-size: 14px;
+    letter-spacing: -0.03em;
+  }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .brand-name { font-weight: 700; font-size: 15px; letter-spacing: -0.03em; }
+  .brand-sub { font-size: 11px; color: var(--muted); }
+  .header-actions { display: flex; gap: 6px; align-items: center; }
+  .icon-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    width: 34px; height: 34px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: all 0.15s ease;
+    font-size: 13px;
+  }
+  .icon-btn:hover { background: var(--card); transform: translateY(-1px); }
+
+  /* ─── TABS ─── */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tab:hover { color: var(--ink); }
+  .tab.active {
+    color: var(--ink);
+    border-bottom-color: var(--ff-red);
+  }
+  .tab-badge {
+    background: var(--ff-red);
+    color: white;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+  .tab.active .tab-badge {
+    background: var(--ff-red);
+  }
+  .tab:not(.active) .tab-badge {
+    background: var(--muted);
+    opacity: 0.6;
+  }
+
+  .view { display: none; }
+  .view.active { display: block; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ─── HEADINGS ─── */
+  .view-heading {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 4px;
+    line-height: 1.1;
+  }
+  .view-sub {
+    color: var(--muted);
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+  .section-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 24px 0 10px;
+  }
+  .section-title:first-child { margin-top: 0; }
+
+  /* ─── CAPTURE ─── */
+  .capture-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+  textarea.capture-input {
+    width: 100%;
+    min-height: 110px;
+    border: none;
+    background: transparent;
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.55;
+    resize: vertical;
+    outline: none;
+  }
+  textarea.capture-input::placeholder { color: var(--muted); }
+  .capture-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .hint { font-size: 12px; color: var(--muted); }
+
+  /* ─── BUTTONS ─── */
+  .btn-primary {
+    background: var(--ff-red);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: -0.01em;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary:hover:not(:disabled) { background: var(--ff-red-deep); transform: translateY(-1px); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .btn-secondary:hover { background: var(--soft); }
+  .btn-ghost {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+  }
+  .btn-ghost:hover { color: var(--ink); background: var(--soft); }
+  .spinner {
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ─── TODAY: SINGLE ASK ─── */
+  .single-ask {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .single-ask::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--ff-red);
+  }
+  .single-ask-label {
+    font-size: 11px;
+    color: var(--ff-red);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .single-ask-title {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    margin-bottom: 12px;
+  }
+  .single-ask-next {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .single-ask-next strong { color: var(--ink); font-weight: 600; }
+  .single-ask-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* ─── ACTION QUEUE / FILTERS ─── */
+  .filter-bar {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    margin-bottom: 16px;
+    padding-bottom: 6px;
+    scrollbar-width: thin;
+  }
+  .filter-chip {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+  }
+  .filter-chip.active {
+    background: var(--ink);
+    color: var(--soft);
+    border-color: var(--ink);
+  }
+  .filter-chip:hover:not(.active) { color: var(--ink); }
+  .filter-chip .count { font-size: 10px; margin-left: 4px; opacity: 0.7; }
+
+  .stats-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+    gap: 10px;
+  }
+  .stats-row h2 {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .stats-count { font-size: 12px; color: var(--muted); }
+
+  /* ─── SEARCH ─── */
+  .search-row {
+    margin-bottom: 12px;
+  }
+  .search-input {
+    width: 100%;
+    padding: 9px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--card);
+    color: var(--ink);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+  .search-input:focus { border-color: var(--ff-red); }
+
+  /* ─── ITEM CARDS ─── */
+  .items-list { display: flex; flex-direction: column; gap: 10px; }
+  .item-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    transition: all 0.15s ease;
+    animation: cardIn 0.3s ease;
+    position: relative;
+  }
+  .item-card.status-done { opacity: 0.55; }
+  .item-card.status-done .item-title { text-decoration: line-through; text-decoration-thickness: 1px; }
+  .item-card.overdue { border-color: var(--ff-red); }
+  .item-card.today { border-color: var(--green); }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .item-card:hover { border-color: var(--muted); }
+  .item-card.overdue:hover { border-color: var(--ff-red); }
+  .item-card.today:hover { border-color: var(--green); }
+  .item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .item-title {
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    flex: 1;
+  }
+  .badge-group { display: flex; gap: 4px; flex-wrap: wrap; }
+  .badge {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+  .status-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .status-active { background: rgba(2,132,199,0.12); color: var(--blue); }
+  .status-waiting { background: rgba(217,119,6,0.12); color: var(--amber); }
+  .status-done { background: rgba(5,150,105,0.12); color: var(--green); }
+
+  .item-note {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .item-action {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 8px 10px;
+    background: var(--soft);
+    border-radius: 8px;
+    font-size: 12.5px;
+    line-height: 1.45;
+    margin-bottom: 8px;
+  }
+  [data-theme="dark"] .item-action {
+    background: rgba(232, 32, 26, 0.06);
+  }
+  .item-action-label {
+    color: var(--ff-red);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+  .item-action-text { color: var(--ink); }
+  .item-date-banner {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+    letter-spacing: 0.01em;
+  }
+  .date-overdue { background: rgba(232,32,26,0.12); color: var(--ff-red); }
+  .date-today { background: rgba(5,150,105,0.12); color: var(--green); }
+  .date-soon { background: rgba(217,119,6,0.12); color: var(--amber); }
+  .date-later { background: var(--soft); color: var(--muted); }
+  [data-theme="dark"] .date-later { background: rgba(255,255,255,0.04); }
+  .item-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
+  .tag {
+    font-size: 10.5px;
+    color: var(--muted);
+    background: var(--soft);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  [data-theme="dark"] .tag { background: rgba(255,255,255,0.04); }
+  .item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .item-meta { font-size: 11px; color: var(--muted); }
+  .item-actions { display: flex; gap: 4px; flex-wrap: wrap; }
+  .micro-btn {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+  }
+  .micro-btn:hover { color: var(--ink); background: var(--soft); }
+  .micro-btn.primary:hover { color: var(--ff-red); }
+  .micro-btn.danger:hover { color: var(--ff-red); }
+
+  /* ─── EMPTY ─── */
+  .empty {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--muted);
+  }
+  .empty-mark { font-size: 24px; margin-bottom: 10px; opacity: 0.5; }
+  .empty p { font-size: 13px; max-width: 360px; margin: 0 auto; line-height: 1.5; }
+
+  /* ─── CATEGORY COLORS ─── */
+  .cat-visa       { background: rgba(232,32,26,0.10);  color: var(--ff-red); }
+  .cat-career     { background: rgba(83,74,183,0.10);  color: #534AB7; }
+  .cat-housing    { background: rgba(180,83,9,0.10);   color: #B45309; }
+  .cat-study      { background: rgba(2,132,199,0.10);  color: #0284C7; }
+  .cat-finance    { background: rgba(5,150,105,0.10);  color: #059669; }
+  .cat-health     { background: rgba(190,24,93,0.10);  color: #BE185D; }
+  .cat-network    { background: rgba(124,58,237,0.10); color: #7C3AED; }
+  .cat-documents  { background: rgba(71,85,105,0.10);  color: #475569; }
+  .cat-resources  { background: rgba(15,118,110,0.10); color: #0F766E; }
+  .cat-ideas      { background: rgba(202,138,4,0.10);  color: #CA8A04; }
+  .cat-urgent     { background: rgba(232,32,26,0.10);  color: var(--ff-red); }
+  .cat-later      { background: rgba(107,107,105,0.10); color: var(--muted); }
+  [data-theme="dark"] .cat-visa,
+  [data-theme="dark"] .cat-urgent     { background: rgba(232,32,26,0.18);  color: #FF6B66; }
+  [data-theme="dark"] .cat-career     { background: rgba(83,74,183,0.20);  color: #9890E5; }
+  [data-theme="dark"] .cat-housing    { background: rgba(180,83,9,0.20);   color: #E8A053; }
+  [data-theme="dark"] .cat-study      { background: rgba(2,132,199,0.20);  color: #5DB8E8; }
+  [data-theme="dark"] .cat-finance    { background: rgba(5,150,105,0.20);  color: #5DCBA8; }
+  [data-theme="dark"] .cat-health     { background: rgba(190,24,93,0.20);  color: #E875A8; }
+  [data-theme="dark"] .cat-network    { background: rgba(124,58,237,0.20); color: #B591F0; }
+  [data-theme="dark"] .cat-documents  { background: rgba(148,163,184,0.15); color: #94A3B8; }
+  [data-theme="dark"] .cat-resources  { background: rgba(15,118,110,0.20); color: #5DC2B5; }
+  [data-theme="dark"] .cat-ideas      { background: rgba(202,138,4,0.20);  color: #E8C75D; }
+  [data-theme="dark"] .cat-later      { background: rgba(154,154,150,0.15); color: var(--muted); }
+
+  /* ─── MODAL ─── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(11,11,11,0.4);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 16px;
+  }
+  .modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
+  .modal {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 22px;
+    width: 100%;
+    max-width: 480px;
+    border: 1px solid var(--line);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal h3 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+  .modal-sub {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--soft);
+    color: var(--ink);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.15s ease;
+    line-height: 1.5;
+  }
+  .field textarea { min-height: 70px; resize: vertical; }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--ff-red); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 480px) { .field-row { grid-template-columns: 1fr; } }
+  .field-help {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.45;
+  }
+  .field-help a { color: var(--ff-red); text-decoration: none; }
+  .modal-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+  .modal-actions-right { display: flex; gap: 6px; }
+
+  /* ─── REFLECT ─── */
+  .reflect-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
+  .reflect-card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+  .reflect-card .reflect-sub {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  .reflect-q {
+    margin-bottom: 14px;
+  }
+  .reflect-q-label {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .reflect-q-mark {
+    color: var(--ff-red);
+    font-size: 11px;
+  }
+  .reflect-q textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--soft);
+    color: var(--ink);
+    font-size: 13px;
+    outline: none;
+    min-height: 60px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+  .reflect-q textarea:focus { border-color: var(--ff-red); }
+  .reflect-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .stat-box {
+    background: var(--soft);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+  }
+  [data-theme="dark"] .stat-box { background: rgba(255,255,255,0.03); }
+  .stat-num {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .reflect-history {
+    margin-top: 24px;
+  }
+  .reflect-entry {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .reflect-entry-date {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .reflect-entry-q {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+    margin-bottom: 2px;
+    font-weight: 500;
+  }
+  .reflect-entry-a {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--ink);
+    color: var(--soft);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    transition: transform 0.25s ease;
+    z-index: 200;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ─── FOOTER ─── */
+  .ff-footer {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--soft);
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.01em;
+    z-index: 50;
+  }
+  .ff-footer a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.15s ease;
+  }
+  .ff-footer a:hover { color: var(--ink); }
+  .ff-logo-mark {
+    width: 18px; height: 18px;
+    border-radius: 5px;
+    background: var(--ff-red);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: -0.02em;
+    flex-shrink: 0;
+  }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 520px) {
+    .container { padding: 16px 14px 80px; }
+    .view-heading { font-size: 22px; }
+    .single-ask-title { font-size: 18px; }
+    .header-actions { gap: 4px; }
+    .item-header { flex-wrap: wrap; }
+    .reflect-stats { grid-template-columns: repeat(3, 1fr); }
+    .stat-num { font-size: 20px; }
+    .tab { padding: 10px 12px; font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand">
+      <div class="brand-mark">⚓</div>
+      <div class="brand-text">
+        <span class="brand-name">Anchor</span>
+        <span class="brand-sub">v0.2</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="theme-btn" title="Toggle theme">◐</button>
+      <button class="icon-btn" id="import-btn" title="Import JSON">↑</button>
+      <button class="icon-btn" id="export-btn" title="Export JSON">↓</button>
+      <button class="icon-btn" id="settings-btn" title="Settings">⚙</button>
+      <input type="file" id="import-file" accept="application/json" style="display:none" />
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-tab="today">Today <span class="tab-badge" id="badge-today">0</span></button>
+    <button class="tab" data-tab="capture">Capture</button>
+    <button class="tab" data-tab="all">All <span class="tab-badge" id="badge-all">0</span></button>
+    <button class="tab" data-tab="reflect">Reflect</button>
+  </nav>
+
+  <!-- VIEW: TODAY -->
+  <section class="view active" id="view-today">
+    <h1 class="view-heading">Today</h1>
+    <p class="view-sub">One thing first. Then everything else.</p>
+
+    <div id="single-ask-wrap"></div>
+
+    <div class="section-title">This week</div>
+    <div id="this-week-list" class="items-list"></div>
+
+    <div class="section-title">Action queue</div>
+    <div class="filter-bar" id="queue-filter"></div>
+    <div id="queue-list" class="items-list"></div>
+  </section>
+
+  <!-- VIEW: CAPTURE -->
+  <section class="view" id="view-capture">
+    <h1 class="view-heading">What's on your mind?</h1>
+    <p class="view-sub">Paste anything — a worry, a link, a task, a contact, an opportunity. AI will sort it.</p>
+
+    <div class="capture-card">
+      <textarea
+        id="capture-input"
+        class="capture-input"
+        placeholder="e.g. 'My BSN appointment is next Tuesday at the gemeente, need to bring rental contract' or 'Anna from TU Delft mentioned a job opening — message her on LinkedIn this week'"
+      ></textarea>
+      <div class="capture-actions">
+        <span class="hint" id="capture-hint">Cmd/Ctrl + Enter to capture</span>
+        <button class="btn-primary" id="capture-btn" disabled>
+          <span id="capture-btn-text">Capture &amp; structure</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="section-title">Recently captured</div>
+    <div id="recent-list" class="items-list"></div>
+  </section>
+
+  <!-- VIEW: ALL -->
+  <section class="view" id="view-all">
+    <h1 class="view-heading">All items</h1>
+    <p class="view-sub">Search, filter, edit anything.</p>
+
+    <div class="search-row">
+      <input type="text" id="search-input" class="search-input" placeholder="Search title, notes, tags…" />
+    </div>
+
+    <div class="filter-bar" id="filter-bar"></div>
+
+    <div class="stats-row">
+      <h2>Captured</h2>
+      <span class="stats-count" id="stats-count">0 items</span>
+    </div>
+
+    <div class="items-list" id="items-list"></div>
+    <div class="empty" id="empty-state">
+      <div class="empty-mark">◌</div>
+      <p>Nothing captured yet. Open <strong>Capture</strong> and paste anything — a thought, a task, a deadline, a person.</p>
+    </div>
+  </section>
+
+  <!-- VIEW: REFLECT -->
+  <section class="view" id="view-reflect">
+    <h1 class="view-heading">Reflect</h1>
+    <p class="view-sub">A short pause. End of day or end of week.</p>
+
+    <div class="reflect-stats" id="reflect-stats"></div>
+
+    <div class="reflect-card">
+      <h3>Daily compression</h3>
+      <p class="reflect-sub">Five sentences. Two minutes. Done.</p>
+
+      <div class="reflect-q">
+        <div class="reflect-q-label"><span class="reflect-q-mark">●</span> What moved today?</div>
+        <textarea id="r-moved" placeholder="One thing that progressed, even slightly…"></textarea>
+      </div>
+      <div class="reflect-q">
+        <div class="reflect-q-label"><span class="reflect-q-mark">●</span> What stayed stuck?</div>
+        <textarea id="r-stuck" placeholder="What didn't move and why…"></textarea>
+      </div>
+      <div class="reflect-q">
+        <div class="reflect-q-label"><span class="reflect-q-mark">●</span> What created overload?</div>
+        <textarea id="r-overload" placeholder="What drained energy or attention…"></textarea>
+      </div>
+      <div class="reflect-q">
+        <div class="reflect-q-label"><span class="reflect-q-mark">●</span> What helped?</div>
+        <textarea id="r-helped" placeholder="What worked, who supported you, what to repeat…"></textarea>
+      </div>
+      <div class="reflect-q">
+        <div class="reflect-q-label"><span class="reflect-q-mark">●</span> Tomorrow's one thing</div>
+        <textarea id="r-tomorrow" placeholder="A single sentence to reduce tomorrow's decision fatigue…"></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-ghost" id="reflect-clear">Clear</button>
+        <button class="btn-primary" id="reflect-save">Save reflection</button>
+      </div>
+    </div>
+
+    <div class="reflect-history">
+      <div class="section-title">History</div>
+      <div id="reflect-history-list"></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ─── EDIT MODAL ─── -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <h3 id="edit-modal-title">Edit item</h3>
+    <p class="modal-sub">Adjust anything the AI got wrong, or add a date.</p>
+
+    <div class="field">
+      <label for="edit-title">Title</label>
+      <input type="text" id="edit-title" />
+    </div>
+
+    <div class="field">
+      <label for="edit-note">Note</label>
+      <textarea id="edit-note"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="edit-next-action">Next action</label>
+      <input type="text" id="edit-next-action" placeholder="Verb-led: Email Anna, Book BSN appointment…" />
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="edit-category">Category</label>
+        <select id="edit-category"></select>
+      </div>
+      <div class="field">
+        <label for="edit-status">Status</label>
+        <select id="edit-status">
+          <option value="active">Active</option>
+          <option value="waiting">Waiting on something</option>
+          <option value="done">Done</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="edit-next-date">Next action date (optional)</label>
+      <input type="date" id="edit-next-date" />
+    </div>
+
+    <div class="field">
+      <label for="edit-tags">Tags (comma separated)</label>
+      <input type="text" id="edit-tags" placeholder="bsn, deadline, tu-delft" />
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-ghost" id="edit-delete" style="color: var(--ff-red);">Delete</button>
+      <div class="modal-actions-right">
+        <button class="btn-secondary" id="edit-cancel">Cancel</button>
+        <button class="btn-primary" id="edit-save">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SETTINGS MODAL ─── -->
+<div class="modal-overlay" id="settings-modal">
+  <div class="modal">
+    <h3>Settings</h3>
+    <p class="modal-sub">Your data and key stay in your browser. Nothing is sent anywhere except OpenAI when you capture.</p>
+
+    <div class="field">
+      <label for="api-key">OpenAI API key</label>
+      <input type="password" id="api-key" placeholder="sk-..." autocomplete="off" />
+      <p class="field-help">Stored in this browser only. Get one at <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">platform.openai.com</a>.</p>
+    </div>
+
+    <div class="field">
+      <label for="model-select">Model</label>
+      <select id="model-select">
+        <option value="gpt-4o-mini">gpt-4o-mini (fast, cheap)</option>
+        <option value="gpt-4o">gpt-4o (smarter)</option>
+        <option value="gpt-4.1-mini">gpt-4.1-mini</option>
+        <option value="gpt-4.1">gpt-4.1</option>
+      </select>
+      <p class="field-help">gpt-4o-mini handles structuring well and costs almost nothing.</p>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" id="delete-all-btn" style="color: var(--ff-red); border-color: rgba(232,32,26,0.3);">Delete all data</button>
+      <div class="modal-actions-right">
+        <button class="btn-secondary" id="settings-cancel">Cancel</button>
+        <button class="btn-primary" id="settings-save">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── TOAST ─── -->
+<div class="toast" id="toast"></div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="ff-footer">
+  <span>Powered by</span>
+  <a href="https://fluxforward.world" target="_blank" rel="noopener">
+    <span class="ff-logo-mark">FF</span>
+    Flux Forward
+  </a>
+</footer>
+
+<script>
+  // ═══════════════════════════════════════════════════════════
+  // CONSTANTS
+  // ═══════════════════════════════════════════════════════════
+  const STORAGE_KEY = 'ff_portable_brain_v02';
+  const SETTINGS_KEY = 'ff_portable_brain_settings_v02';
+  const REFLECT_KEY = 'ff_portable_brain_reflect_v02';
+
+  const CATEGORIES = [
+    { id: 'urgent',    label: 'Urgent' },
+    { id: 'visa',      label: 'Visa & residence' },
+    { id: 'career',    label: 'Career' },
+    { id: 'housing',   label: 'Housing' },
+    { id: 'study',     label: 'Study' },
+    { id: 'finance',   label: 'Finance' },
+    { id: 'health',    label: 'Health & energy' },
+    { id: 'network',   label: 'Relationships' },
+    { id: 'documents', label: 'Documents' },
+    { id: 'resources', label: 'Links & resources' },
+    { id: 'ideas',     label: 'Ideas' },
+    { id: 'later',     label: 'Later' },
+  ];
+  const VALID_CATS = CATEGORIES.map(c => c.id);
+
+  const QUEUE_BUCKETS = [
+    { id: 'all',     label: 'All' },
+    { id: 'now',     label: 'Now' },
+    { id: 'next',    label: 'Next' },
+    { id: 'later',   label: 'Later' },
+    { id: 'waiting', label: 'Waiting' },
+  ];
+
+  // ═══════════════════════════════════════════════════════════
+  // STATE
+  // ═══════════════════════════════════════════════════════════
+  let items = loadJSON(STORAGE_KEY, []);
+  let settings = loadJSON(SETTINGS_KEY, {});
+  let reflections = loadJSON(REFLECT_KEY, []);
+  let activeTab = 'today';
+  let activeFilter = 'all';   // All view
+  let activeQueueFilter = 'all'; // Today view queue
+  let searchTerm = '';
+  let editingId = null;
+
+  function loadJSON(key, fallback) {
+    try { return JSON.parse(localStorage.getItem(key) || 'null') ?? fallback; }
+    catch { return fallback; }
+  }
+  function saveItems() { localStorage.setItem(STORAGE_KEY, JSON.stringify(items)); }
+  function saveSettings() { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }
+  function saveReflections() { localStorage.setItem(REFLECT_KEY, JSON.stringify(reflections)); }
+
+  // Migrate v0.1 data if present
+  (function migrate() {
+    const v01 = localStorage.getItem('ff_portable_brain_v01');
+    if (v01 && items.length === 0) {
+      try {
+        const old = JSON.parse(v01);
+        items = old.map(it => ({
+          ...it,
+          status: it.status || 'active',
+          nextActionDate: it.nextActionDate || '',
+        }));
+        saveItems();
+        showToast && showToast('Imported v0.1 data');
+      } catch {}
+    }
+  })();
+
+  // ═══════════════════════════════════════════════════════════
+  // SHORTCUTS
+  // ═══════════════════════════════════════════════════════════
+  const $ = (id) => document.getElementById(id);
+
+  // ═══════════════════════════════════════════════════════════
+  // TABS
+  // ═══════════════════════════════════════════════════════════
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => switchTab(t.dataset.tab));
+  });
+  function switchTab(name) {
+    activeTab = name;
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+    document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + name));
+    renderAll();
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // SETTINGS MODAL
+  // ═══════════════════════════════════════════════════════════
+  $('settings-btn').addEventListener('click', () => {
+    $('api-key').value = settings.apiKey || '';
+    $('model-select').value = settings.model || 'gpt-4o-mini';
+    $('settings-modal').classList.add('open');
+  });
+  $('settings-cancel').addEventListener('click', () => $('settings-modal').classList.remove('open'));
+  $('settings-save').addEventListener('click', () => {
+    settings.apiKey = $('api-key').value.trim();
+    settings.model = $('model-select').value;
+    saveSettings();
+    $('settings-modal').classList.remove('open');
+    updateCaptureButton();
+    showToast('Settings saved');
+  });
+  $('settings-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'settings-modal') $('settings-modal').classList.remove('open');
+  });
+  $('delete-all-btn').addEventListener('click', () => {
+    if (confirm('Delete ALL captured items and reflections? This cannot be undone.')) {
+      items = []; reflections = [];
+      saveItems(); saveReflections();
+      $('settings-modal').classList.remove('open');
+      renderAll();
+      showToast('All data deleted');
+    }
+  });
+
+  // ═══════════════════════════════════════════════════════════
+  // THEME
+  // ═══════════════════════════════════════════════════════════
+  function applyTheme() {
+    document.documentElement.setAttribute('data-theme', settings.theme || 'light');
+  }
+  $('theme-btn').addEventListener('click', () => {
+    settings.theme = (settings.theme === 'dark') ? 'light' : 'dark';
+    saveSettings();
+    applyTheme();
+  });
+
+  // ═══════════════════════════════════════════════════════════
+  // EXPORT / IMPORT
+  // ═══════════════════════════════════════════════════════════
+  $('export-btn').addEventListener('click', () => {
+    if (items.length === 0 && reflections.length === 0) {
+      showToast('Nothing to export yet');
+      return;
+    }
+    const data = JSON.stringify({
+      version: '0.2',
+      exported: new Date().toISOString(),
+      items,
+      reflections,
+    }, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `portable-brain-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('Exported');
+  });
+
+  $('import-btn').addEventListener('click', () => $('import-file').click());
+  $('import-file').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      if (!Array.isArray(data.items)) throw new Error('Invalid file format');
+      if (!confirm(`Import ${data.items.length} items? This will merge with existing data.`)) return;
+      const existingIds = new Set(items.map(i => i.id));
+      const newItems = data.items.filter(i => i.id && !existingIds.has(i.id));
+      items = [...newItems, ...items];
+      if (Array.isArray(data.reflections)) {
+        const existingRefIds = new Set(reflections.map(r => r.id));
+        reflections = [...data.reflections.filter(r => r.id && !existingRefIds.has(r.id)), ...reflections];
+      }
+      saveItems(); saveReflections();
+      renderAll();
+      showToast(`Imported ${newItems.length} new items`);
+    } catch (err) {
+      showToast('Import failed: ' + err.message);
+    }
+    e.target.value = '';
+  });
+
+  // ═══════════════════════════════════════════════════════════
+  // TOAST
+  // ═══════════════════════════════════════════════════════════
+  let toastTimer;
+  function showToast(msg) {
+    const t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // CAPTURE
+  // ═══════════════════════════════════════════════════════════
+  const captureInput = $('capture-input');
+  const captureBtn = $('capture-btn');
+  const captureBtnText = $('capture-btn-text');
+
+  captureInput.addEventListener('input', updateCaptureButton);
+  captureInput.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      if (!captureBtn.disabled) handleCapture();
+    }
+  });
+  captureBtn.addEventListener('click', handleCapture);
+
+  function updateCaptureButton() {
+    const hasText = captureInput.value.trim().length > 0;
+    const hasKey = !!(settings.apiKey && settings.apiKey.length > 0);
+    captureBtn.disabled = !hasText || !hasKey;
+    if (hasText && !hasKey) {
+      captureBtnText.textContent = 'Add OpenAI key in settings';
+    } else {
+      captureBtnText.textContent = 'Capture & structure';
+    }
+  }
+
+  async function handleCapture() {
+    const text = captureInput.value.trim();
+    if (!text || !settings.apiKey) return;
+
+    captureBtn.disabled = true;
+    captureBtnText.innerHTML = '<span class="spinner"></span> Structuring…';
+
+    try {
+      const structured = await structureWithAI(text);
+      const item = {
+        id: 'item_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+        rawInput: text,
+        category: VALID_CATS.includes(structured.category) ? structured.category : 'ideas',
+        title: structured.title || text.slice(0, 60),
+        note: structured.note || '',
+        nextAction: structured.nextAction || '',
+        nextActionDate: structured.nextActionDate || '',
+        tags: Array.isArray(structured.tags) ? structured.tags.slice(0, 5) : [],
+        status: 'active',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      items.unshift(item);
+      saveItems();
+      captureInput.value = '';
+      renderAll();
+      updateCaptureButton();
+      showToast('Captured');
+    } catch (err) {
+      console.error(err);
+      showToast('Error: ' + (err.message || 'Could not structure'));
+    } finally {
+      captureBtn.disabled = false;
+      updateCaptureButton();
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // AI STRUCTURING
+  // ═══════════════════════════════════════════════════════════
+  async function structureWithAI(text) {
+    const today = new Date().toISOString().slice(0, 10);
+    const systemPrompt = `You are the structuring engine for Flux Forward Portable Brain, a tool helping internationals, students, founders, and newcomers in the Netherlands manage migration-related overload.
+
+Today's date: ${today}
+
+Your job: take raw input and return clean JSON that helps the user act on it.
+
+Return ONLY valid JSON. No markdown, no commentary.
+
+Schema:
+{
+  "category": one of: ${VALID_CATS.join(', ')},
+  "title": short clear title (max 80 chars, sentence case),
+  "note": one-sentence summary (max 140 chars),
+  "nextAction": verb-led next action (e.g. "Email Anna about the opening", "Book BSN appointment"). Empty string if no clear action.,
+  "nextActionDate": ISO date YYYY-MM-DD if a date is mentioned or implied (e.g. "next Tuesday", "this week", "tomorrow"). Empty string if no date.,
+  "tags": up to 3 short lowercase tags (e.g. ["bsn", "deadline", "tu-delft"])
+}
+
+Category guidance:
+- urgent: deadlines today/tomorrow, time-sensitive admin
+- visa: residence permit, IND, BSN, registration, MVV
+- career: jobs, work permits, employer search, interviews
+- housing: rental, contracts, address registration
+- study: university, courses, enrollment, grants
+- finance: tax, DigiD, banking, insurance, money
+- health: GP, insurance, mental health, energy, sleep
+- network: people, contacts, follow-ups
+- documents: papers, certificates, translations, apostille
+- resources: useful links, articles, tools
+- ideas: thoughts, possibilities, future things
+- later: not urgent, no clear next action
+
+For dates: if user says "next Tuesday", calculate the actual date from today. If "this week", pick the soonest weekday. If "in a few weeks", leave empty.`;
+
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${settings.apiKey}`,
+      },
+      body: JSON.stringify({
+        model: settings.model || 'gpt-4o-mini',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: `Structure this input:\n\n"""${text}"""` },
+        ],
+        temperature: 0.2,
+        response_format: { type: 'json_object' },
+      }),
+    });
+
+    if (!response.ok) {
+      const errBody = await response.text();
+      let errMsg = `OpenAI returned ${response.status}`;
+      try {
+        const parsed = JSON.parse(errBody);
+        if (parsed.error?.message) errMsg = parsed.error.message;
+      } catch {}
+      throw new Error(errMsg);
+    }
+
+    const data = await response.json();
+    const content = data.choices?.[0]?.message?.content || '{}';
+    return JSON.parse(content);
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // DATE LOGIC (Action Queue buckets)
+  // ═══════════════════════════════════════════════════════════
+  function todayStr() { return new Date().toISOString().slice(0, 10); }
+  function daysFromToday(dateStr) {
+    if (!dateStr) return null;
+    const d = new Date(dateStr + 'T00:00:00');
+    const t = new Date(todayStr() + 'T00:00:00');
+    return Math.round((d - t) / 86400000);
+  }
+  function bucketOf(item) {
+    if (item.status === 'done') return null;
+    if (item.status === 'waiting') return 'waiting';
+    const days = daysFromToday(item.nextActionDate);
+    if (days === null) {
+      // No date: use category urgency
+      if (item.category === 'urgent') return 'now';
+      if (item.category === 'later') return 'later';
+      return 'next';
+    }
+    if (days <= 0) return 'now';      // today or overdue
+    if (days <= 7) return 'next';     // within a week
+    return 'later';
+  }
+  function dateBannerFor(item) {
+    if (!item.nextActionDate) return null;
+    const days = daysFromToday(item.nextActionDate);
+    if (days === null) return null;
+    if (days < 0) return { cls: 'date-overdue', label: `Overdue ${Math.abs(days)}d` };
+    if (days === 0) return { cls: 'date-today', label: 'Today' };
+    if (days === 1) return { cls: 'date-soon', label: 'Tomorrow' };
+    if (days <= 7) return { cls: 'date-soon', label: `In ${days} days` };
+    return { cls: 'date-later', label: formatDate(item.nextActionDate) };
+  }
+  function formatDate(iso) {
+    if (!iso) return '';
+    const d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // SINGLE ASK LOGIC
+  // ═══════════════════════════════════════════════════════════
+  function pickSingleAsk() {
+    const live = items.filter(i => i.status === 'active');
+    if (live.length === 0) return null;
+
+    const score = (it) => {
+      let s = 0;
+      const days = daysFromToday(it.nextActionDate);
+      if (days !== null) {
+        if (days < 0) s += 100;          // overdue
+        else if (days === 0) s += 80;    // today
+        else if (days === 1) s += 50;    // tomorrow
+        else if (days <= 7) s += 20;     // this week
+      }
+      if (it.category === 'urgent') s += 40;
+      if (it.category === 'visa') s += 15;
+      if (it.category === 'housing') s += 10;
+      if (it.category === 'finance') s += 5;
+      if (it.nextAction) s += 8;
+      // Recency penalty: very old un-acted items deserve a small boost
+      const ageDays = (Date.now() - new Date(it.createdAt).getTime()) / 86400000;
+      if (ageDays > 14) s += 10;
+      return s;
+    };
+
+    return live.slice().sort((a, b) => score(b) - score(a))[0];
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // RENDERING
+  // ═══════════════════════════════════════════════════════════
+  function renderAll() {
+    updateBadges();
+    if (activeTab === 'today') renderToday();
+    if (activeTab === 'capture') renderCapture();
+    if (activeTab === 'all') renderAllView();
+    if (activeTab === 'reflect') renderReflect();
+  }
+
+  function updateBadges() {
+    const live = items.filter(i => i.status !== 'done');
+    const todayCount = live.filter(i => {
+      const d = daysFromToday(i.nextActionDate);
+      return d !== null && d <= 0;
+    }).length + (pickSingleAsk() && live.filter(i => {
+      const d = daysFromToday(i.nextActionDate);
+      return d !== null && d <= 0;
+    }).length === 0 ? 1 : 0);
+
+    $('badge-today').textContent = todayCount;
+    $('badge-all').textContent = live.length;
+  }
+
+  // ─── TODAY ─────────────────────────────────────────────────
+  function renderToday() {
+    const ask = pickSingleAsk();
+    const askWrap = $('single-ask-wrap');
+    if (!ask) {
+      askWrap.innerHTML = `
+        <div class="empty" style="padding: 32px; background: var(--card); border: 1px solid var(--line); border-radius: 16px;">
+          <div class="empty-mark">○</div>
+          <p>Nothing active right now. Capture something, or take a break.</p>
+        </div>`;
+    } else {
+      const date = dateBannerFor(ask);
+      const dateHtml = date ? `<span class="item-date-banner ${date.cls}">${date.label}</span>` : '';
+      askWrap.innerHTML = `
+        <div class="single-ask">
+          <div class="single-ask-label">Your single ask</div>
+          <div class="single-ask-title">${escapeHtml(ask.title)}</div>
+          ${ask.nextAction ? `<div class="single-ask-next"><strong>Next:</strong> ${escapeHtml(ask.nextAction)}</div>` : ''}
+          ${dateHtml}
+          <div class="single-ask-actions">
+            <button class="btn-primary" data-action="done" data-id="${ask.id}">Mark done</button>
+            <button class="btn-secondary" data-action="waiting" data-id="${ask.id}">Waiting on someone</button>
+            <button class="btn-secondary" data-action="edit" data-id="${ask.id}">Edit</button>
+          </div>
+        </div>
+      `;
+      wireItemActions(askWrap);
+    }
+
+    // This week
+    const thisWeek = items
+      .filter(i => i.status === 'active')
+      .filter(i => {
+        const d = daysFromToday(i.nextActionDate);
+        return d !== null && d > 0 && d <= 7;
+      })
+      .sort((a, b) => (a.nextActionDate || '').localeCompare(b.nextActionDate || ''));
+
+    const wk = $('this-week-list');
+    if (thisWeek.length === 0) {
+      wk.innerHTML = `<div class="empty" style="padding: 20px;"><p>No dated items in the next 7 days.</p></div>`;
+    } else {
+      wk.innerHTML = thisWeek.map(renderCard).join('');
+      wireItemActions(wk);
+    }
+
+    // Queue
+    renderQueueFilter();
+    renderQueue();
+  }
+
+  function renderQueueFilter() {
+    const counts = { now: 0, next: 0, later: 0, waiting: 0 };
+    items.filter(i => i.status !== 'done').forEach(i => {
+      const b = bucketOf(i);
+      if (b && counts[b] !== undefined) counts[b]++;
+    });
+    const total = counts.now + counts.next + counts.later + counts.waiting;
+
+    $('queue-filter').innerHTML = QUEUE_BUCKETS.map(b => {
+      const c = b.id === 'all' ? total : counts[b.id];
+      const active = b.id === activeQueueFilter ? 'active' : '';
+      return `<button class="filter-chip ${active}" data-bucket="${b.id}">${b.label}<span class="count">${c}</span></button>`;
+    }).join('');
+
+    $('queue-filter').querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        activeQueueFilter = chip.dataset.bucket;
+        renderQueueFilter();
+        renderQueue();
+      });
+    });
+  }
+
+  function renderQueue() {
+    const ask = pickSingleAsk();
+    let pool = items.filter(i => i.status !== 'done' && (!ask || i.id !== ask.id));
+    if (activeQueueFilter !== 'all') {
+      pool = pool.filter(i => bucketOf(i) === activeQueueFilter);
+    }
+    // Sort: overdue first, then by date asc, then by createdAt desc
+    pool.sort((a, b) => {
+      const da = daysFromToday(a.nextActionDate);
+      const db = daysFromToday(b.nextActionDate);
+      if (da === null && db === null) return new Date(b.createdAt) - new Date(a.createdAt);
+      if (da === null) return 1;
+      if (db === null) return -1;
+      return da - db;
+    });
+
+    const list = $('queue-list');
+    if (pool.length === 0) {
+      list.innerHTML = `<div class="empty" style="padding: 20px;"><p>Nothing in this bucket.</p></div>`;
+    } else {
+      list.innerHTML = pool.map(renderCard).join('');
+      wireItemActions(list);
+    }
+  }
+
+  // ─── CAPTURE VIEW ──────────────────────────────────────────
+  function renderCapture() {
+    const recent = items.slice(0, 5);
+    const list = $('recent-list');
+    if (recent.length === 0) {
+      list.innerHTML = `<div class="empty" style="padding: 20px;"><p>Nothing captured yet.</p></div>`;
+    } else {
+      list.innerHTML = recent.map(renderCard).join('');
+      wireItemActions(list);
+    }
+  }
+
+  // ─── ALL VIEW ──────────────────────────────────────────────
+  function renderAllView() {
+    renderFilters();
+    renderItemsList();
+  }
+
+  function renderFilters() {
+    const counts = {};
+    items.forEach(it => { counts[it.category] = (counts[it.category] || 0) + 1; });
+    const all = [{ id: 'all', label: 'All' }, ...CATEGORIES];
+    $('filter-bar').innerHTML = all
+      .filter(c => c.id === 'all' || counts[c.id] > 0)
+      .map(c => {
+        const count = c.id === 'all' ? items.length : (counts[c.id] || 0);
+        const active = c.id === activeFilter ? 'active' : '';
+        return `<button class="filter-chip ${active}" data-cat="${c.id}">${c.label}<span class="count">${count}</span></button>`;
+      }).join('');
+    $('filter-bar').querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        activeFilter = chip.dataset.cat;
+        renderFilters();
+        renderItemsList();
+      });
+    });
+  }
+
+  function renderItemsList() {
+    let filtered = activeFilter === 'all' ? items : items.filter(it => it.category === activeFilter);
+    if (searchTerm) {
+      const s = searchTerm.toLowerCase();
+      filtered = filtered.filter(it =>
+        (it.title || '').toLowerCase().includes(s) ||
+        (it.note || '').toLowerCase().includes(s) ||
+        (it.nextAction || '').toLowerCase().includes(s) ||
+        (it.tags || []).some(t => t.toLowerCase().includes(s)) ||
+        (it.rawInput || '').toLowerCase().includes(s)
+      );
+    }
+    $('stats-count').textContent = `${filtered.length} item${filtered.length === 1 ? '' : 's'}`;
+
+    if (items.length === 0) {
+      $('empty-state').style.display = 'block';
+      $('items-list').innerHTML = '';
+      return;
+    }
+    $('empty-state').style.display = 'none';
+
+    if (filtered.length === 0) {
+      $('items-list').innerHTML = `<div class="empty" style="padding: 24px;"><p>No matches.</p></div>`;
+      return;
+    }
+    $('items-list').innerHTML = filtered.map(renderCard).join('');
+    wireItemActions($('items-list'));
+  }
+
+  $('search-input').addEventListener('input', (e) => {
+    searchTerm = e.target.value.trim();
+    renderItemsList();
+  });
+
+  // ─── CARD RENDERER ─────────────────────────────────────────
+  function renderCard(it) {
+    const cat = CATEGORIES.find(c => c.id === it.category);
+    const catLabel = cat ? cat.label : it.category;
+    const dateBanner = dateBannerFor(it);
+    const days = daysFromToday(it.nextActionDate);
+
+    let cardClass = `item-card status-${it.status || 'active'}`;
+    if (days !== null && days < 0 && it.status === 'active') cardClass += ' overdue';
+    else if (days === 0 && it.status === 'active') cardClass += ' today';
+
+    const statusLabel = { active: 'Active', waiting: 'Waiting', done: 'Done' }[it.status || 'active'];
+
+    const tagsHtml = (it.tags && it.tags.length)
+      ? `<div class="item-tags">${it.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>` : '';
+    const actionHtml = it.nextAction
+      ? `<div class="item-action"><span class="item-action-label">Next</span><span class="item-action-text">${escapeHtml(it.nextAction)}</span></div>` : '';
+    const noteHtml = it.note ? `<div class="item-note">${escapeHtml(it.note)}</div>` : '';
+    const dateHtml = dateBanner ? `<span class="item-date-banner ${dateBanner.cls}">${dateBanner.label}</span>` : '';
+
+    const isDone = it.status === 'done';
+    const isWaiting = it.status === 'waiting';
+
+    return `
+      <div class="${cardClass}">
+        <div class="item-header">
+          <div class="item-title">${escapeHtml(it.title)}</div>
+          <div class="badge-group">
+            <span class="status-badge status-${it.status || 'active'}">${statusLabel}</span>
+            <span class="badge cat-${it.category}">${escapeHtml(catLabel)}</span>
+          </div>
+        </div>
+        ${noteHtml}
+        ${actionHtml}
+        ${dateHtml}
+        ${tagsHtml}
+        <div class="item-footer">
+          <span class="item-meta">${formatRelativeTime(new Date(it.createdAt))}</span>
+          <div class="item-actions">
+            ${!isDone ? `<button class="micro-btn primary" data-action="done" data-id="${it.id}">Done</button>` : `<button class="micro-btn" data-action="reactivate" data-id="${it.id}">Reactivate</button>`}
+            ${!isDone && !isWaiting ? `<button class="micro-btn" data-action="waiting" data-id="${it.id}">Waiting</button>` : ''}
+            ${isWaiting ? `<button class="micro-btn" data-action="activate" data-id="${it.id}">Active</button>` : ''}
+            <button class="micro-btn" data-action="edit" data-id="${it.id}">Edit</button>
+            <button class="micro-btn danger" data-action="delete" data-id="${it.id}">Delete</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function wireItemActions(container) {
+    container.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const action = btn.dataset.action;
+        const item = items.find(i => i.id === id);
+        if (!item) return;
+        if (action === 'done') { item.status = 'done'; item.updatedAt = new Date().toISOString(); saveItems(); renderAll(); showToast('Marked done'); }
+        else if (action === 'waiting') { item.status = 'waiting'; item.updatedAt = new Date().toISOString(); saveItems(); renderAll(); showToast('Set to waiting'); }
+        else if (action === 'activate' || action === 'reactivate') { item.status = 'active'; item.updatedAt = new Date().toISOString(); saveItems(); renderAll(); showToast('Active again'); }
+        else if (action === 'delete') {
+          if (confirm('Delete this item?')) {
+            items = items.filter(i => i.id !== id);
+            saveItems(); renderAll(); showToast('Deleted');
+          }
+        }
+        else if (action === 'edit') openEdit(id);
+      });
+    });
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // EDIT MODAL
+  // ═══════════════════════════════════════════════════════════
+  function openEdit(id) {
+    const item = items.find(i => i.id === id);
+    if (!item) return;
+    editingId = id;
+
+    const catSelect = $('edit-category');
+    catSelect.innerHTML = CATEGORIES.map(c =>
+      `<option value="${c.id}" ${c.id === item.category ? 'selected' : ''}>${c.label}</option>`
+    ).join('');
+
+    $('edit-title').value = item.title || '';
+    $('edit-note').value = item.note || '';
+    $('edit-next-action').value = item.nextAction || '';
+    $('edit-status').value = item.status || 'active';
+    $('edit-next-date').value = item.nextActionDate || '';
+    $('edit-tags').value = (item.tags || []).join(', ');
+    $('edit-modal').classList.add('open');
+  }
+
+  $('edit-cancel').addEventListener('click', () => {
+    $('edit-modal').classList.remove('open');
+    editingId = null;
+  });
+  $('edit-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'edit-modal') {
+      $('edit-modal').classList.remove('open');
+      editingId = null;
+    }
+  });
+  $('edit-save').addEventListener('click', () => {
+    if (!editingId) return;
+    const item = items.find(i => i.id === editingId);
+    if (!item) return;
+    item.title = $('edit-title').value.trim() || item.title;
+    item.note = $('edit-note').value.trim();
+    item.nextAction = $('edit-next-action').value.trim();
+    item.category = $('edit-category').value;
+    item.status = $('edit-status').value;
+    item.nextActionDate = $('edit-next-date').value;
+    item.tags = $('edit-tags').value.split(',').map(t => t.trim()).filter(Boolean).slice(0, 5);
+    item.updatedAt = new Date().toISOString();
+    saveItems();
+    $('edit-modal').classList.remove('open');
+    editingId = null;
+    renderAll();
+    showToast('Saved');
+  });
+  $('edit-delete').addEventListener('click', () => {
+    if (!editingId) return;
+    if (confirm('Delete this item?')) {
+      items = items.filter(i => i.id !== editingId);
+      saveItems();
+      $('edit-modal').classList.remove('open');
+      editingId = null;
+      renderAll();
+      showToast('Deleted');
+    }
+  });
+
+  // ═══════════════════════════════════════════════════════════
+  // REFLECT
+  // ═══════════════════════════════════════════════════════════
+  function renderReflect() {
+    // Stats: last 7 days
+    const weekAgo = Date.now() - 7 * 86400000;
+    const moved = items.filter(i => i.status === 'done' && new Date(i.updatedAt || i.createdAt).getTime() > weekAgo).length;
+    const captured = items.filter(i => new Date(i.createdAt).getTime() > weekAgo).length;
+    const stuck = items.filter(i => i.status === 'active' && new Date(i.createdAt).getTime() < weekAgo).length;
+
+    $('reflect-stats').innerHTML = `
+      <div class="stat-box">
+        <div class="stat-num">${captured}</div>
+        <div class="stat-label">Captured 7d</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">${moved}</div>
+        <div class="stat-label">Done 7d</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">${stuck}</div>
+        <div class="stat-label">Stuck &gt;7d</div>
+      </div>
+    `;
+
+    // History
+    const hist = $('reflect-history-list');
+    if (reflections.length === 0) {
+      hist.innerHTML = `<div class="empty" style="padding: 20px;"><p>No reflections yet.</p></div>`;
+    } else {
+      hist.innerHTML = reflections.slice(0, 14).map(r => {
+        const d = new Date(r.createdAt);
+        const dStr = d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+        const block = (label, val) => val ? `<div class="reflect-entry-q">${label}</div><div class="reflect-entry-a">${escapeHtml(val)}</div>` : '';
+        return `
+          <div class="reflect-entry">
+            <div class="reflect-entry-date">${dStr}</div>
+            ${block('What moved', r.moved)}
+            ${block('What stayed stuck', r.stuck)}
+            ${block('What created overload', r.overload)}
+            ${block('What helped', r.helped)}
+            ${block('Tomorrow\'s one thing', r.tomorrow)}
+            <div class="item-footer" style="margin-top: 12px;">
+              <span></span>
+              <div class="item-actions">
+                <button class="micro-btn danger" data-reflect-del="${r.id}">Delete</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      hist.querySelectorAll('[data-reflect-del]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (confirm('Delete this reflection?')) {
+            const id = btn.dataset.reflectDel;
+            reflections = reflections.filter(r => r.id !== id);
+            saveReflections();
+            renderReflect();
+            showToast('Deleted');
+          }
+        });
+      });
+    }
+  }
+
+  $('reflect-clear').addEventListener('click', () => {
+    ['r-moved','r-stuck','r-overload','r-helped','r-tomorrow'].forEach(id => $(id).value = '');
+  });
+  $('reflect-save').addEventListener('click', () => {
+    const r = {
+      id: 'r_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+      moved: $('r-moved').value.trim(),
+      stuck: $('r-stuck').value.trim(),
+      overload: $('r-overload').value.trim(),
+      helped: $('r-helped').value.trim(),
+      tomorrow: $('r-tomorrow').value.trim(),
+      createdAt: new Date().toISOString(),
+    };
+    const hasContent = [r.moved, r.stuck, r.overload, r.helped, r.tomorrow].some(v => v.length > 0);
+    if (!hasContent) { showToast('Write at least one answer'); return; }
+    reflections.unshift(r);
+    saveReflections();
+    ['r-moved','r-stuck','r-overload','r-helped','r-tomorrow'].forEach(id => $(id).value = '');
+    renderReflect();
+    showToast('Reflection saved');
+  });
+
+  // ═══════════════════════════════════════════════════════════
+  // UTILS
+  // ═══════════════════════════════════════════════════════════
+  function formatRelativeTime(date) {
+    const diff = Date.now() - date.getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'just now';
+    if (mins < 60) return `${mins}m ago`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    if (days < 7) return `${days}d ago`;
+    return date.toLocaleDateString();
+  }
+
+  function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // INIT
+  // ═══════════════════════════════════════════════════════════
+  applyTheme();
+  updateCaptureButton();
+  renderAll();
+
+  if (!settings.apiKey && items.length === 0) {
+    setTimeout(() => {
+      showToast('Welcome to Anchor. Open settings (⚙) and add your OpenAI key.');
+    }, 600);
+  }
+</script>
+
+</body>
+</html>
