@@ -4,9 +4,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Anchor · by Flux Forward</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --ff-red: #E8201A;
@@ -37,7 +34,7 @@
   html, body {
     background: var(--soft);
     color: var(--ink);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
@@ -150,6 +147,13 @@
     color: var(--muted);
     margin-bottom: 20px;
     font-size: 14px;
+  }
+  .privacy-note {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+    margin: -10px 0 18px;
+    max-width: 680px;
   }
   .section-title {
     font-size: 12px;
@@ -816,13 +820,14 @@
   <!-- VIEW: CAPTURE -->
   <section class="view" id="view-capture">
     <h1 class="view-heading">What's on your mind?</h1>
-    <p class="view-sub">Paste anything — a worry, a link, a task, a contact, an opportunity. AI will sort it.</p>
+    <p class="view-sub">Paste anything - a worry, a link, a task, a contact, an opportunity. AI will sort it.</p>
+    <p class="privacy-note">Safe use: For demos, screenshots, or workshops, use sample data only. Do not enter real API keys or sensitive personal information into unknown forks or modified versions of Anchor.</p>
 
     <div class="capture-card">
       <textarea
         id="capture-input"
         class="capture-input"
-        placeholder="e.g. 'My BSN appointment is next Tuesday at the gemeente, need to bring rental contract' or 'Anna from TU Delft mentioned a job opening — message her on LinkedIn this week'"
+        placeholder="e.g. 'My BSN appointment is next Tuesday at the gemeente, need to bring rental contract' or 'Anna from TU Delft mentioned a job opening - message her on LinkedIn this week'"
       ></textarea>
       <div class="capture-actions">
         <span class="hint" id="capture-hint">Cmd/Ctrl + Enter to capture</span>
@@ -855,7 +860,7 @@
     <div class="items-list" id="items-list"></div>
     <div class="empty" id="empty-state">
       <div class="empty-mark">◌</div>
-      <p>Nothing captured yet. Open <strong>Capture</strong> and paste anything — a thought, a task, a deadline, a person.</p>
+      <p>Nothing captured yet. Open <strong>Capture</strong> and paste anything - a thought, a task, a deadline, a person.</p>
     </div>
   </section>
 
@@ -970,7 +975,7 @@
     <div class="field">
       <label for="api-key">OpenAI API key</label>
       <input type="password" id="api-key" placeholder="sk-..." autocomplete="off" />
-      <p class="field-help">Stored in this browser only. Get one at <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">platform.openai.com</a>.</p>
+      <p class="field-help">Stored in this browser only. Use your own API key only. Do not enter real keys into unknown forks or modified versions of Anchor. Do not use Anchor on shared or public computers. Get one at <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">platform.openai.com</a>.</p>
     </div>
 
     <div class="field">
