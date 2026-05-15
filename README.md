@@ -2,7 +2,7 @@
 
 **A lightweight execution cockpit for people navigating international life.**
 
-Built for international students, skilled migrants, newcomers, and founders dealing with the cognitive overload of relocation — visa deadlines, housing admin, career moves, language barriers, identity shifts, and a hundred open loops.
+Built for international students, skilled migrants, newcomers, and founders dealing with the cognitive overload of relocation: visa deadlines, housing admin, career moves, language barriers, identity shifts, and a hundred open loops.
 
 ---
 
@@ -18,32 +18,32 @@ Most productivity tools are built for people with stable lives. This one is buil
 
 Paste anything. AI structures it.
 
-```
+```text
 "My BSN appointment is next Tuesday at the gemeente, need to bring rental contract"
-→ Category: Visa & residence
-→ Next action: Bring rental contract to BSN appointment
-→ Date: 2026-05-20
+-> Category: Visa & residence
+-> Next action: Bring rental contract to BSN appointment
+-> Date: 2026-05-20
 ```
 
-Then it helps you decide what to do today, track what's waiting, and reflect on what moved and what didn't.
+Then it helps you decide what to do today, track what's waiting, and reflect on what moved and what did not.
 
-**Core loop:** Capture → Structure → Decide → Act → Reflect
+**Core loop:** Capture -> Structure -> Decide -> Act -> Reflect
 
 ---
 
 ## Features
 
-- **Capture** — paste any thought, task, link, worry, or contact. AI classifies and extracts a next action.
-- **Today view** — one Single Ask (your most urgent item), This Week, and an Action Queue (Now / Next / Later / Waiting)
-- **12 migration-specific categories** — Visa, Career, Housing, Study, Finance, Health, Relationships, Documents, Resources, Ideas, Urgent, Later
-- **Next action dates** with overdue/today/soon banners
-- **Status tracking** — Active, Waiting, Done
-- **Edit anything** — fix what AI got wrong in one click
-- **Search** — across all items
-- **Daily reflection** — 5 questions, 2 minutes
-- **Export / Import** — your data as JSON, always
-- **Dark mode**
-- **Fully local** — nothing stored anywhere except your own browser
+- **Capture:** paste any thought, task, link, worry, or contact. AI classifies and extracts a next action.
+- **Today view:** one Single Ask, This Week, and an Action Queue: Now / Next / Later / Waiting.
+- **12 migration-specific categories:** Visa, Career, Housing, Study, Finance, Health, Relationships, Documents, Resources, Ideas, Urgent, Later.
+- **Next action dates:** overdue, today, and soon banners.
+- **Status tracking:** Active, Waiting, Done.
+- **Edit anything:** fix what AI got wrong in one click.
+- **Search:** across all items.
+- **Daily reflection:** 5 questions, 2 minutes.
+- **Export / Import:** your data as JSON.
+- **Dark mode.**
+- **Local-first:** nothing is stored anywhere except your own browser.
 
 ---
 
@@ -59,33 +59,54 @@ No install. No server. No account. No subscription.
 
 ## Setup
 
-1. Open the file in your browser
-2. Click **⚙ Settings**
-3. Paste your [OpenAI API key](https://platform.openai.com/api-keys)
-4. Start capturing
+1. Open the file in your browser.
+2. Click **Settings**.
+3. Paste your [OpenAI API key](https://platform.openai.com/api-keys).
+4. Start capturing.
 
-Your API key is stored only in your browser's localStorage. It is never sent anywhere except directly to OpenAI when you capture an item.
+Your API key is stored only in your browser's `localStorage`. It is never sent anywhere except directly to OpenAI when you capture an item.
+
+Do not use Anchor on shared or public computers. Anyone with access to the same browser profile may be able to access locally stored data.
+
+---
+
+## Safe use
+
+Anchor is designed for personal use with your own data.
+
+For demos, screenshots, workshops, or public sharing, use sample data only. Do not show real visa details, documents, names, API keys, private notes, or personal deadlines.
+
+If you use a fork or modified version of Anchor, review the code before entering an API key or sensitive information. Forks are not official Flux Forward products unless explicitly listed by Flux Forward.
 
 ---
 
 ## Privacy
 
-- All data lives in your browser (`localStorage`)
-- No backend, no database, no analytics
-- No data is collected by Flux Forward
-- You can export all your data as JSON at any time
-- You can delete everything with one button
+- All data lives in your browser through `localStorage`.
+- No backend, no database, no analytics.
+- No data is collected by Flux Forward.
+- No external fonts are loaded.
+- You can export all your data as JSON at any time.
+- You can delete everything with one button.
 
-The only external service used is OpenAI (when you press Capture). You bring your own key and pay OpenAI directly. A typical capture costs less than $0.001 with `gpt-4o-mini`.
+The only external service used during capture is OpenAI. You bring your own key and pay OpenAI directly. A typical capture costs less than $0.001 with `gpt-4o-mini`.
+
+---
+
+## Official version
+
+The official version of Anchor is maintained by Flux Forward in this repository.
+
+Forks and experiments are welcome under the MIT license, but they are not official Flux Forward products unless explicitly listed here.
 
 ---
 
 ## Who this is for
 
-- International students starting in the Netherlands (or anywhere new)
-- Highly skilled migrants navigating IND, BSN, DigiD, housing, and work permits simultaneously
-- International founders building while settling
-- Newcomers dealing with relocation overload
+- International students starting in the Netherlands, or anywhere new.
+- Highly skilled migrants navigating IND, BSN, DigiD, housing, and work permits at the same time.
+- International founders building while settling.
+- Newcomers dealing with relocation overload.
 
 This is not a generic productivity app. It is not a CRM. It is not a Notion clone. It is a focused tool for one specific kind of cognitive load: the overload of being foreign somewhere.
 
@@ -93,29 +114,42 @@ This is not a generic productivity app. It is not a CRM. It is not a Notion clon
 
 ## Tech
 
-Single HTML file. No framework. No build step. No dependencies except one Google Fonts import and the OpenAI API.
+Single HTML file. No framework. No build step. No backend.
 
-- Vanilla JS
-- CSS custom properties (light/dark theme)
-- `localStorage` for persistence
-- OpenAI `/v1/chat/completions` with `response_format: json_object`
+- Vanilla JavaScript.
+- CSS custom properties for light and dark mode.
+- System fonts only.
+- `localStorage` for persistence.
+- OpenAI `/v1/chat/completions` with `response_format: json_object`.
 
 ---
 
 ## Roadmap
 
-| Version | Status | Description |
-|---------|--------|-------------|
-| v0.1 | ✅ Done | Single-file prototype. Capture + AI structure + categories |
-| v0.2 | ✅ Done | Today view, Single Ask, Action Queue, Reflect, Edit, Search, Import/Export |
-| v0.3 | Planned | Next.js + local SQLite. Installable desktop app via Tauri. |
-| v0.4 | Planned | Link dashboard (curated resources for newcomers in NL) |
+Anchor will continue to evolve around privacy, portability, and clearer next-action support.
+
+Possible future directions include:
+
+- Stronger local-first storage.
+- Installable versions.
+- Curated newcomer resources.
+- Better privacy and security controls.
+
+---
+
+## Security
+
+Please do not submit real API keys, secrets, credentials, or private user data in issues, pull requests, or commits.
+
+If you find a security issue, please contact Flux Forward directly instead of opening a public issue.
+
+For more details, see [`SECURITY.md`](./SECURITY.md).
 
 ---
 
 ## About
 
-Built by [Flux Forward](https://fluxforward.world) — a Netherlands-based organization working to close the Activation Gap: the structural disconnect between internationals arriving in the Netherlands and their ability to fully contribute.
+Built by [Flux Forward](https://fluxforward.world), a Netherlands-based organization working to close the Activation Gap: the structural disconnect between internationals arriving in the Netherlands and their ability to fully contribute.
 
 This tool is a direct product of hundreds of conversations with internationals navigating Dutch systems. It started as an internal execution layer and became something portable.
 
@@ -123,7 +157,7 @@ This tool is a direct product of hundreds of conversations with internationals n
 
 ## License
 
-MIT — use it, fork it, adapt it for your community.
+MIT. Use it, fork it, adapt it for your community.
 
 ---
 
